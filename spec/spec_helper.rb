@@ -5,8 +5,8 @@ require "bundler"
 Bundler.setup
 require "methopara" if RUBY_VERSION.match /1\.9/
 require "ostruct"
-require "spec"
-require "spec/autorun"
+require "rspec"
+require "rspec/autorun"
 require "redis"
 require "merb"
 require "i18n"

@@ -9,11 +9,11 @@ class Redis
     end
 
     def self.rails3? #:nodoc:
-      defined?(::Rails) && ::Rails::VERSION::MAJOR == 3
+      true
     end
 
     def self.rails31? #:nodoc:
-      defined?(::Rails) && ::Rails::VERSION::MAJOR == 3 && ::Rails::VERSION::MINOR == 1
+      false
     end
 
     def reconnect

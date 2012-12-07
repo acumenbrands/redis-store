@@ -1,5 +1,8 @@
 source :gemcutter
-gem "redis", "~> 2.2.1"
+gem "redis", "~> 3.0.2"
+# BE: depend on AS at runtime so that we get a conflict if we try to upgrade to
+# 3.1+
+gem "activesupport", "~> 3.0.5"
 
 group :development do
   gem "jeweler"
@@ -9,7 +12,7 @@ end
 group :development, :test, :rails3 do
   gem "rack-cache"
   gem "merb", "1.1.0"
-  gem "rspec", "1.3.0"
+  gem "rspec"
   gem "i18n"
 
   if RUBY_VERSION > '1.9'
@@ -19,16 +22,7 @@ group :development, :test, :rails3 do
   end
 end
 
-if ENV["REDIS_STORE_ENV"] == "rails3"
-  group :rails3 do
-    gem "rack", "~> 1.2.1"
-    gem "activesupport", "3.0.5"
-    gem "actionpack", "3.0.5"
-  end
-else
-  group :test do
-    gem "rack", "~> 1.1.0"
-    gem "activesupport", "2.3.11"
-    gem "actionpack", "2.3.11"
-  end
+group :rails3 do
+  gem "rack", "~> 1.2.1"
+  gem "actionpack", "~> 3.0.5"
 end

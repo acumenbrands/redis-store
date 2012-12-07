@@ -2,8 +2,8 @@ $:.unshift 'lib'
 require 'rubygems'
 require 'rake'
 require 'rake/testtask'
-require 'rake/rdoctask'
-require 'spec/rake/spectask'
+require 'rdoc/task'
+require 'rspec/core/rake_task'
 
 task :default => "spec:suite"
 
@@ -17,7 +17,9 @@ begin
     gemspec.homepage    = "http://github.com/jodosha/redis-store"
     gemspec.authors     = [ "Luca Guidi" ]
     gemspec.executables = [ ]
-    gemspec.add_dependency "redis", ">= 2.0.0"
+    gemspec.add_dependency "redis", "~> 3.0.2"
+    # BE: Depend on Rails 3.0
+    gemspec.add_dependency "activesupport", "~> 3.0.5"
   end
 
   Jeweler::GemcutterTasks.new
@@ -31,9 +33,9 @@ namespace :spec do
     invoke_with_redis_replication "spec:run"
   end
 
-  Spec::Rake::SpecTask.new(:run) do |t|
-    t.spec_files = FileList['spec/**/*_spec.rb']
-    t.spec_opts = %w(-fs --color)
+  RSpec::Core::RakeTask.new(:run) do |t|
+    t.pattern = 'spec/**/*_spec.rb'
+    t.rspec_opts = %w(-fs --color)
   end
 end
 
@@ -42,8 +44,8 @@ task :rcov => :prepare do
   invoke_with_redis_replication "rcov_run"
 end
 
-Spec::Rake::SpecTask.new(:rcov_run) do |t|
-  t.spec_files = FileList['spec/**/*_spec.rb']
+RSpec::Core::RakeTask.new(:rcov_run) do |t|
+  t.pattern = 'spec/**/*_spec.rb'
   t.rcov = true
 end
 
